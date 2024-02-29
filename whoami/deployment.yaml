@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-whoami
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: k8s-whoami
+  template:
+    metadata:
+      labels:
+        app: k8s-whoami
+    spec:
+      containers:
+      - name: k8s-whoami
+        image: pluto92/k8s-whoami:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "250m"
+        ports:
+        - containerPort: 5000
+    

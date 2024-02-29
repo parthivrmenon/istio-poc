@@ -1,0 +1,21 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: whoami
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - whoami-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/whoami"
+    rewrite:
+      uri: "/"
+
+    route:
+    - destination:
+        host: k8s-whoami-service.whoami.svc.cluster.local
+        port:
+          number: 8080
