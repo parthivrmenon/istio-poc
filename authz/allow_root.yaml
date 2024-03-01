@@ -1,0 +1,16 @@
+apiVersion: "security.istio.io/v1beta1"
+kind: "AuthorizationPolicy"
+metadata:
+  name: allow-root-access
+  namespace: whoami
+spec:
+  selector:
+    matchLabels:
+      app: k8s-whoami
+  action: ALLOW
+  rules: 
+  #  - {}
+  - to:
+    - operation:
+        methods: ["GET"]
+        paths: ["/"]

@@ -69,15 +69,29 @@ kubectl label namespace whoami istio-injection=enabled
 ```
 
 ## Deploy the [whoami](https://github.com/parthivrmenon/whoami) app
-```
-kubectl -n whoami apply -f whoami/deployment.yaml  -f whoami/service.yaml
+```bash
+kubectl apply -f whoami/deployment.yaml  -f whoami/service.yaml
 ```
 
 ## Expose `whoami` app
-```
-kubectl -n istio-ingress apply -f istio/whoami_gateway.yaml -f istio/whoami_vs.yaml
+```bash
+kubectl apply -f traffic_management/whoami_gateway.yaml -f traffic_management/whoami_vs.yaml -f other/telemetry.yaml
 
 ```
+
+## Apply authn & authz policies
+```bash
+# authz
+kubectl apply -f authz/allow_public.yaml -f authz/allow_root.yaml -f authz/deny_private.yaml
+
+# view authz policies
+# istioctl experimental authz check <pod.namespace>
+
+# authn
+kubectl apply -f authn/jwt.yaml
+
+```
+
 
 ## Verify configuration via Istioctl
 ```bash
@@ -91,6 +105,10 @@ istioctl analyze -n whoami
 minikube tunnel
 
 curl http://127.0.0.1/whoami
+
+# Tail Envoy access logs
+kubectl -n whoami logs -l app=k8s-whoami -c istio-proxy -f
+
 
 ```
 

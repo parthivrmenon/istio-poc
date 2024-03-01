@@ -1,0 +1,15 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: deny-private
+  namespace: whoami
+spec:
+  selector:
+    matchLabels:
+      app: k8s-whoami
+  action: DENY
+  rules:
+  - to:
+    - operation:
+        ports: ["8080"]
+        paths: ["/private"]

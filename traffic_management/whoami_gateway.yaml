@@ -2,6 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   name: whoami-gateway
+  namespace: whoami
 spec:
   # The selector matches the ingress gateway pod labels.
   selector:
